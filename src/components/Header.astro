@@ -1,0 +1,62 @@
+---
+
+const {pathname} = Astro.url;
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
+];
+
+const isActive = (href: string) =>
+  href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+---
+
+<header>
+  <a class="logo" href="/">Codynn</a>
+  <nav>
+    {}
+    {links.map((link) => (
+      <a href={link.href} class:list={{ active: isActive(link.href) }}>
+        {link.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
+
+<style>
+  /* This style tag is scoped. These rules only touch THIS component. */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  nav {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  /* The class we toggled with class:list. */
+  nav a.active {
+    color: var(--accent);
+    font-weight: 600;
+  }
+</style>

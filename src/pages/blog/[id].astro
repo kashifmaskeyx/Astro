@@ -1,0 +1,76 @@
+---
+import LikeButton from "../../components/LikeButton";
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+
+export async function getStaticPaths() {
+
+    const posts = await getCollection("posts", ({ data }) => !data.draft);
+      
+    return posts.map((post) => ({
+ 
+        params: { id: post.id },
+    
+        props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+
+const prettyDate = post.data.pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="post">
+
+    <h1>{post.data.title}</h1>
+
+    <p class="meta">
+        <time datetime={post.data.pubDate.toISOString()}> {prettyDate}</time>
+    </p>
+
+    <p class="tags">
+        {post.data.tags.map((tag)=> (
+            <a href={`/tags/$(tags)/`}>#{tag}</a>
+        ))}
+    </p>
+
+    <Content />
+    <div style="height: 120vh"></div>
+    <LikeButton client:visible/>
+    </article>
+</BaseLayout>
+
+
+
+<style>
+  .meta {
+    color: var(--muted);
+  }
+
+  /* The links in a map have no whitespace between them in Astro 7. Flex gap fixes that cleanly. */
+  .tags {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  /* The Markdown HTML comes from outside this component. So we need :global. */
+  /* The .post part stays scoped. Only the h2 inside it goes global. */
+  .post :global(h2) {
+    margin-top: 2.5rem;
+  }
+
+  .post :global(code) {
+    font-size: 0.95em;
+  }
+</style>
+
+

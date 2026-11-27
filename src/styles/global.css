@@ -1,0 +1,77 @@
+/* First, colors as CSS variables. Change one, change the whole site. */
+:root {
+  --bg: #fdfdfc;
+  --text: #1c1c1e;
+  --muted: #6b6b73;
+  --accent: #7c3aed;
+  --card: #ffffff;
+  --border: #e5e5ea;
+}
+
+/* Dark mode, with zero JavaScript. */
+/* The browser tells us if the reader prefers dark, and we just swap the variables. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121214;
+    --text: #ececf1;
+    --muted: #9a9aa5;
+    --accent: #a78bfa;
+    --card: #1b1b1f;
+    --border: #2c2c33;
+  }
+}
+
+/* A tiny reset so sizes behave the way you expect. */
+* {
+  box-sizing: border-box;
+}
+
+/* Base page styles. */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* Keep the content column readable. Nobody wants a 2000 pixel wide paragraph. */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Images never overflow their container. */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Code blocks can scroll sideways instead of breaking the layout. */
+pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+/* A small pill-shaped button for our like counter. */
+.like-button {
+  font: inherit;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* The border picks up the accent color on hover. */
+.like-button:hover {
+  border-color: var(--accent);
+}

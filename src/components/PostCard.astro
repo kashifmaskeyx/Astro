@@ -1,0 +1,50 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    href: string;
+    date: Date;
+}
+
+const {title, description, href, date} = Astro.props
+const prettyDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+
+---
+<article>
+    {}
+    <h2> <a href={href}>{title}</a></h2>
+    <p>
+        <time datetime={date.toISOString()}>{prettyDate}</time>
+    </p>
+    <p>{description}</p>
+</article>
+
+<style>
+  /* Scoped again. Even a generic selector like "article" can't leak out. */
+  article {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.25rem;
+  }
+
+  h2 a {
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  article p {
+    margin: 0.25rem 0;
+    color: var(--muted);
+  }
+</style>
